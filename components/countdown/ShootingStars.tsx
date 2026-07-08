@@ -2,14 +2,11 @@
 
 import { motion } from "framer-motion";
 
-const stars = Array.from({ length: count }, (_, i) => ({
+const stars = Array.from({ length: 12 }, (_, i) => ({
   id: i,
-  left: Math.random() * 100,
-  top: Math.random() * 100,
-  size: Math.random() * 10 + 4,
-  type: Math.random(),
-  duration: Math.random() * 4 + 3,
-  delay: Math.random() * 5,
+  top: `${Math.random() * 70}%`,
+  left: `${Math.random() * 90}%`,
+  delay: Math.random() * 15,
 }));
 
 export default function ShootingStars() {
