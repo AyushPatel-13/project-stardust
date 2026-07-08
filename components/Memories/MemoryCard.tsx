@@ -1,11 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
 
 type Props = {
   title: string;
   description: string;
   date: string;
+  path: string;
+  image: string;
   onClose: () => void;
 };
 
@@ -13,6 +17,8 @@ export default function MemoryCard({
   title,
   description,
   date,
+  path,
+  image,
   onClose,
 }: Props) {
   return (
@@ -46,7 +52,7 @@ export default function MemoryCard({
       "
     >
       <div
-  className="
+        className="
     relative
     w-[92%]
     max-w-2xl
@@ -58,11 +64,11 @@ export default function MemoryCard({
     p-8
     shadow-[0_0_60px_rgba(255,255,255,0.08)]
   "
->
+      >
 
-  <button
-    onClick={onClose}
-    className="
+        <button
+          onClick={onClose}
+          className="
       absolute
       right-6
       top-6
@@ -71,48 +77,64 @@ export default function MemoryCard({
       hover:text-white
       transition
     "
-  >
-    ✕
-  </button>
+        >
+          ✕
+        </button>
 
-  <p className="text-sm uppercase tracking-[0.3em] text-white/40">
-    {date}
-  </p>
+        <p className="text-sm uppercase tracking-[0.3em] text-white/40">
+          {date}
+        </p>
 
-  <h2 className="mt-3 text-5xl font-bold text-white">
-    {title}
-  </h2>
+        <h2 className="mt-3 text-5xl font-bold text-white">
+          {title}
+        </h2>
 
-  {/* Image Placeholder */}
-  <div
-    className="
-      mt-8
-      h-64
-      rounded-2xl
-      border
-      border-white/10
-      bg-white/5
-      flex
-      items-center
-      justify-center
-      text-white/40
-    "
-  >
-    📸 Memory Photo
-  </div>
+        {/* Image Placeholder */}
+        <div className="mt-8 overflow-hidden rounded-2xl">
 
-  <p
-    className="
+          <Image
+            src={image}
+            alt={title}
+            width={1200}
+            height={700}
+            className="w-full h-80 object-cover rounded-2xl"
+          />
+
+        </div>
+
+        <p
+          className="
       mt-8
       text-lg
       leading-9
       text-white/80
     "
-  >
-    {description}
-  </p>
+        >
+          {description}
+        </p>
 
-</div>
+        <div className="mt-10 flex justify-center">
+
+          <Link
+            href={path}
+            className="
+      rounded-full
+      border
+      border-purple-500/40
+      px-8
+      py-4
+      text-white
+      transition
+      hover:bg-purple-500/20
+      hover:scale-105
+    "
+          >
+            Continue the Story → ✨
+          </Link>
+
+        </div>
+
+      </div>
     </motion.div>
   );
 }

@@ -1,5 +1,5 @@
-import BirthdayCountdown from "../components/Birthday/BirthdayCountdown";
+import IntroEngine from "@/components/intro/IntroEngine";
 
 export default function Home() {
-  return <BirthdayCountdown />;
+  return <IntroEngine />;
 }

@@ -1,11 +1,11 @@
 "use client";
 
-import Typewriter from "./Typewriter";
-import { Scene } from "./Timeline";
+import Typewriter from "./animations/Typewriter";
+import { Scene } from "./SceneTimeline";
 import ProgressBar from "./ProgressBar";
-import MatchFound from "./MatchFound";
-import MahiReveal from "./MahiReveal";
-import StardustReveal from "./StardustReveal";
+import MatchFound from "./animations/MatchFound";
+import MahiReveal from "./animations/MahiReveal";
+import StardustReveal from "./animations/StardustReveal";
 import Countdown from "./Countdown";
 
 type Props = {
@@ -34,6 +34,9 @@ export default function SceneRenderer({ scene }: Props) {
 
       case "mahi":
   return <StardustReveal />;
+
+  case "countdown":
+  return <Countdown />;
 
     case "match":
   return <MatchFound />;

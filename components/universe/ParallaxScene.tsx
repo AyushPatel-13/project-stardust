@@ -1,38 +1,46 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect } from "react";
 
-type Props = {
+export default function ParallaxScene({
+  children,
+}: {
   children: React.ReactNode;
-};
+}) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-export default function ParallaxScene({ children }: Props) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const x = useSpring(mouseX, {
+    stiffness: 40,
+    damping: 20,
+  });
+
+  const y = useSpring(mouseY, {
+    stiffness: 40,
+    damping: 20,
+  });
 
   useEffect(() => {
-    function handleMouseMove(e: MouseEvent) {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-
-      setPosition({ x, y });
-    }
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+    const move = (e: MouseEvent) => {
+      mouseX.set((e.clientX - window.innerWidth / 2) * 0.005);
+mouseY.set((e.clientY - window.innerHeight / 2) * 0.005);
     };
+
+    window.addEventListener("mousemove", move);
+
+    return () => window.removeEventListener("mousemove", move);
   }, []);
 
   return (
-    <div
-      className="absolute inset-0"
+    <motion.div
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
-        transition: "transform 0.15s linear",
+        x,
+        y,
       }}
+      className="absolute inset-0"
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

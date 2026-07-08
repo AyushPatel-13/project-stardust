@@ -1,18 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { memories } from "./memoryData";
+import { memories } from "./memories";
 import { useState } from "react";
 import MemoryCard from "./MemoryCard";
 
 export default function MemoryConstellation() {
 
-    const [selectedMemory, setSelectedMemory] = useState<
-  (typeof memories)[number] | null
->(null);
+  const [selectedMemory, setSelectedMemory] = useState<
+    (typeof memories)[number] | null
+  >(null);
 
   return (
-    <div className="absolute inset-0 z-40">
+    <div className="absolute inset-0 z-20">
 
       {/* Constellation Lines */}
       <svg
@@ -25,7 +25,7 @@ export default function MemoryConstellation() {
             if (!target) return null;
 
             return (
-              <line
+              <motion.line
                 key={`${memory.id}-${target.id}`}
                 x1={`${memory.x}%`}
                 y1={`${memory.y}%`}
@@ -33,6 +33,22 @@ export default function MemoryConstellation() {
                 y2={`${target.y}%`}
                 stroke="rgba(255,255,255,0.18)"
                 strokeWidth="1"
+
+                initial={{
+                  pathLength: 0,
+                  opacity: 0,
+                }}
+
+                animate={{
+                  pathLength: 1,
+                  opacity: 1,
+                }}
+
+                transition={{
+                  duration: 2,
+                  delay: 0.6,
+                  ease: "easeInOut",
+                }}
               />
             );
           })
@@ -40,33 +56,68 @@ export default function MemoryConstellation() {
       </svg>
 
       {/* Stars */}
-      {memories.map((memory) => (
+      {memories.map((memory, index) => (
         <motion.button
           key={memory.id}
+
+          initial={{
+            opacity: 0,
+            scale: 0,
+          }}
+
+          animate={{
+            opacity: 1,
+            scale: [1, 1.25, 1],
+          }}
+
+          transition={{
+            opacity: {
+              duration: 0.7,
+              delay: index * 0.35,
+            },
+
+            scale: {
+              repeat: Infinity,
+              duration: 3,
+              delay: index * 0.35,
+            },
+          }}
+
           onClick={() => {
-  console.log(memory.title);
   setSelectedMemory(memory);
 }}
-          className="absolute z-50 cursor-pointer"
+          className="absolute z-50 cursor-pointer pointer-events-auto"
+
           style={{
             left: `${memory.x}%`,
             top: `${memory.y}%`,
           }}
+
           whileHover={{
-            scale: 1.8,
+            scale: 2,
           }}
         >
-          <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_white]" />
+          <div
+            className="
+  w-6
+  h-6
+  rounded-full
+  bg-white
+  shadow-[0_0_18px_white]
+"
+          />
         </motion.button>
       ))}
       {selectedMemory && (
-  <MemoryCard
-    title={selectedMemory.title}
-    description={selectedMemory.description}
-    date={selectedMemory.date}
-    onClose={() => setSelectedMemory(null)}
-  />
-)}
+        <MemoryCard
+          title={selectedMemory.title}
+          description={selectedMemory.description}
+          date={selectedMemory.date}
+          path={selectedMemory.path}
+          image={selectedMemory.image}
+          onClose={() => setSelectedMemory(null)}
+        />
+      )}
 
     </div>
   );

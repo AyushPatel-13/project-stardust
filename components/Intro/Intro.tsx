@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import SceneRenderer from "./SceneRenderer";
-import { timeline } from "./Timeline";
+import { timeline } from "./SceneTimeline";
 import Background from "./Background";
 import UniverseLanding from "@/components/universe/UniverseLanding";
 

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { Cormorant_Garamond } from "next/font/google";
+import "./globals.css";
+import { UniverseProvider } from "@/components/shared/context/UniverseContext";
+import BackgroundMusic from "@/components/shared/BackgroundMusic";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
-
-<body className={cormorant.className}></body>
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,15 +27,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className={`${cormorant.className} min-h-full flex flex-col`}>
+
+        <BackgroundMusic />
+
+        {children}
+
+      </body>
     </html>
   );
 }
